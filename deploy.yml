@@ -1,0 +1,22 @@
+---
+- name: Установка и настройка веб-сервера на клоне ВМ
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Обновление кэша пакетов apt
+      apt:
+        update_cache: yes
+
+    - name: Установка Nginx и PHP
+      apt:
+        name:
+          - nginx
+          - php-fpm
+        state: present
+
+    - name: Обеспечение автозапуска и работы сервиса Nginx
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
